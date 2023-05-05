@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Board from "./Board";
+import { useState } from "react";
 
 function App() {
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [gameFinished, setGameFinished] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Tic Tac Toe</h1>
+      <p>{gameFinished ? "Player " + currentPlayer + " won!" : "Player " + currentPlayer + " turn"}</p>
+      <Board
+        currentPlayer={currentPlayer}
+        gameFinished={gameFinished}
+        onPlayerMoved={() => setCurrentPlayer(currentPlayer === 1 ? 2 : 1)}
+        onGameFinished={() => setGameFinished(true)}
+      />
+      {/* <p>Player1: o</p>
+      <p>Player2: x</p> */}
     </div>
   );
 }

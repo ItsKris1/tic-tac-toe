@@ -1,0 +1,16 @@
+.board {
+    height: 200px;
+    width: 200px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+
+}
+
+
+.tile {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}

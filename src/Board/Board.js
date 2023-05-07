@@ -1,27 +1,17 @@
 import "./Board.css";
 import BoardTile from "./BoardTile";
-import { useState } from "react";
 
-// 0 - empty
-// 1 - player1
-// 2 - player2
-const initialTiles = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-];
-
-export default function Board({ currentPlayer, onPlayerMoved, gameFinished, onGameFinished }) {
-  const [tiles, setTiles] = useState(initialTiles);
-
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished, updateTiles }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameFinished) {
       return;
     }
+    let validMove = false;
 
     const newTiles = tiles.map((row, y) => {
       return row.map((tile, x) => {
-        if (y === clickedTileRow && x === clickedTileCol) {
+        if (tile === 0 && y === clickedTileRow && x === clickedTileCol) {
+          validMove = true;
           return currentPlayer;
         } else {
           return tile;
@@ -29,15 +19,17 @@ export default function Board({ currentPlayer, onPlayerMoved, gameFinished, onGa
       });
     });
 
-    if (checkBoardFull(newTiles)) {
-      onGameFinished();
-    } else if (checkIfWon(newTiles, clickedTileRow, clickedTileCol)) {
-      onGameFinished();
-    } else {
-      onPlayerMoved();
-    }
+    if (validMove) {
+      if (checkBoardFull(newTiles)) {
+        onGameFinished();
+      } else if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
+        onGameFinished();
+      } else {
+        onPlayerMoved();
+      }
 
-    setTiles(newTiles);
+      updateTiles(newTiles);
+    }
   }
   function checkIfWon(newTiles, x, y) {
     return (
@@ -58,6 +50,8 @@ export default function Board({ currentPlayer, onPlayerMoved, gameFinished, onGa
 
   function playerHasMatchingColumn(tiles, col) {
     for (let row = 0; row < 3; row++) {
+      console.log("Checking: {}", row, col);
+
       if (tiles[row][col] !== currentPlayer) {
         return false;
       }

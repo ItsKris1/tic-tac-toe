@@ -10,7 +10,6 @@ To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
 
 ## Todo
 - Add *draw* as a game state
-- Disable hover on board tiles if game is over
 - Consistent layout
 
 ## Ideas

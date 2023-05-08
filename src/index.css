@@ -1,4 +1,12 @@
+:root {
+  --hover-bg: rgb(207, 207, 207);
+}
+
 h1 {
+  margin: 0;
+}
+
+p {
   margin: 0;
 }
 
@@ -36,8 +44,9 @@ code {
 
 }
 
-.current-player {
+.game-status {
   font-size: 1.15rem;
+  font-weight: 700;
 }
 .app {
   display: flex;
@@ -65,13 +74,31 @@ code {
 
 }
 
+.restart-btn {
+  outline: none;
+  border: 2px solid black;
+  padding: 5px;
+  font-weight: 600;
+  /* color: rgb(53, 49, 49); */
+  letter-spacing: 1px;
+}
 
+.restart-btn:hover {
+  background-color: var(--hover-bg);
+  cursor: pointer;
+
+}
 
 .tile {
   display: flex;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   padding: 10px;
+}
+
+.tile:hover {
+  background-color: var(--hover-bg);
+    cursor: pointer;
 }
 
 

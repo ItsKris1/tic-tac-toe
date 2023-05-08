@@ -28,7 +28,9 @@ export default function Game() {
 
   return (
     <div className="game">
-      {!gameFinished && <b className="current-player">Player {currentPlayer} turn</b>}
+      <p className="game-status">GAME STATUS</p>
+      {gameFinished ? <p>Player {currentPlayer} won!!!</p> : <p>Player {currentPlayer} turn</p>}
+
       <Board
         tiles={tiles}
         currentPlayer={currentPlayer}
@@ -37,7 +39,9 @@ export default function Game() {
         onGameFinished={() => setGameFinished(!gameFinished)}
       />
 
-      <button onClick={restartGame}>RESTART GAME</button>
+      <button className="restart-btn" onClick={restartGame}>
+        RESTART GAME
+      </button>
     </div>
   );
 }

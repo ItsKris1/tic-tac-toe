@@ -1,18 +1,17 @@
-import "./Board.css";
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange, updateTiles }) {
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameState === "draw" || gameState === "player_won") {
       return;
     }
 
-    let validMove = false;
+    let playerMoved = false;
 
     const newTiles = tiles.map((row, y) => {
       return row.map((tile, x) => {
         if (tile === 0 && y === clickedTileRow && x === clickedTileCol) {
-          validMove = true;
+          playerMoved = true;
           return currentPlayer;
         } else {
           return tile;
@@ -20,17 +19,14 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
       });
     });
 
-    if (validMove) {
-      if (checkBoardFull(newTiles)) {
-        // game is draw
-        onGameStateChange("draw");
-      } else if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
+    if (playerMoved) {
+      if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
         onGameStateChange("player_won");
-      } else {
-        onPlayerMoved();
+      } else if (checkBoardFull(newTiles)) {
+        onGameStateChange("draw");
       }
 
-      updateTiles(newTiles);
+      onPlayerMoved(newTiles);
     }
   }
   function checkIfWon(newTiles, x, y) {

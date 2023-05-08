@@ -12,12 +12,23 @@ const initialTiles = [
 
 export default function Game() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
-  const [gameFinished, setGameFinished] = useState(false);
+  const [gameState, setGameState] = useState("playing");
   const [tiles, setTiles] = useState(initialTiles);
+
+  let gameStatus;
+  if (gameState === "playing") {
+    gameStatus = `Player ${currentPlayer} turn`;
+  } else if (gameState === "player_won") {
+    gameStatus = `Player ${currentPlayer} won!!!`;
+  } else if (gameState === "draw") {
+    gameStatus = `DRAW`;
+  } else {
+    console.log("Invalid gameStatus: ", gameStatus);
+  }
 
   function restartGame() {
     setTiles(initialTiles);
-    setGameFinished(false);
+    setGameState("playing");
     setCurrentPlayer(1);
   }
 
@@ -25,22 +36,18 @@ export default function Game() {
     setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
   }
 
-  function handleGameFinished() {
-    setGameFinished(true);
-  }
-
   return (
     <div className="game">
       <p className="game-status">GAME STATUS</p>
-      {gameFinished ? <p>Player {currentPlayer} won!!!</p> : <p>Player {currentPlayer} turn</p>}
+      {gameStatus}
 
       <Board
         tiles={tiles}
         updateTiles={(newTiles) => setTiles(newTiles)}
         currentPlayer={currentPlayer}
-        gameFinished={gameFinished}
+        gameState={gameState}
         onPlayerMoved={handlePlayerMoved}
-        onGameFinished={handleGameFinished}
+        onGameStateChange={(newGameState) => setGameState(newGameState)}
       />
 
       <button className="restart-btn" onClick={restartGame}>

@@ -1,9 +1,9 @@
 import Cross from "../cross.svg";
 import Circle from "../circle.svg";
 
-export default function BoardTile({ row, col, playerNumber, onClick, gameFinished }) {
+export default function BoardTile({ row, col, playerNumber, onClick, gameState }) {
   let tileClass = "tile";
-  if (gameFinished) {
+  if (gameState === "draw" || gameState === "player_won") {
     tileClass += " disabled";
   }
   return (

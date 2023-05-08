@@ -1,9 +1,9 @@
 import "./Board.css";
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished, updateTiles }) {
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange, updateTiles }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
-    if (gameFinished) {
+    if (gameState === "draw" || gameState === "player_won") {
       return;
     }
 
@@ -23,9 +23,9 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
     if (validMove) {
       if (checkBoardFull(newTiles)) {
         // game is draw
-        onGameFinished();
+        onGameStateChange("draw");
       } else if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
-        onGameFinished();
+        onGameStateChange("player_won");
       } else {
         onPlayerMoved();
       }
@@ -52,8 +52,6 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
 
   function playerHasMatchingColumn(tiles, col) {
     for (let row = 0; row < 3; row++) {
-      console.log("Checking: {}", row, col);
-
       if (tiles[row][col] !== currentPlayer) {
         return false;
       }
@@ -98,7 +96,7 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
     <div className="board">
       {tiles.map((row, y) => {
         return row.map((tile, x) => (
-          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameFinished={gameFinished} />
+          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameState={gameState} />
         ));
       })}
     </div>

@@ -1,3 +1,12 @@
+h1 {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,11 +14,43 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.player-info {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  gap: 5px;
+}
+
+.player-info img {
+  height: 100%;
+
+}
+
+.current-player {
+  font-size: 1.15rem;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 50px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .board {
@@ -20,8 +61,10 @@ code {
   grid-template-rows: repeat(3, 100px);
   border-top: 1px solid black;
   border-left: 1px solid black;
+  margin: 20px;
 
 }
+
 
 
 .tile {
@@ -30,3 +73,9 @@ code {
   border-right: 1px solid black;
   padding: 10px;
 }
+
+
+
+
+
+

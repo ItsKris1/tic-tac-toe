@@ -1,5 +1,4 @@
 import Game from "./Game/Game";
-import "./App.css";
 import { Player1, Player2 } from "./Game/Board/BoardTile";
 
 function App() {
@@ -7,10 +6,10 @@ function App() {
     <div className="app">
       <h1>Tic Tac Toe</h1>
       <ul>
-        <li>
+        <li className="player-info">
           Player1: <Player1></Player1>
         </li>
-        <li>
+        <li className="player-info">
           Player2: <Player2></Player2>
         </li>
       </ul>

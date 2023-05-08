@@ -10,3 +10,11 @@ export default function BoardTile({ row, col, playerNumber, onClick }) {
     </div>
   );
 }
+
+export function Player1() {
+  return <img src={Circle} alt="Circle"></img>;
+}
+
+export function Player2() {
+  return <img src={Cross} alt="cross"></img>;
+}

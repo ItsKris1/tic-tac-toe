@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Board from "./Board/Board";
-import RestartGameButton from "./RestartGameButton";
 
 // 0 - empty
 // 1 - player1
@@ -28,11 +27,8 @@ export default function Game() {
   }
 
   return (
-    <div>
-      {gameFinished ? "Player " + currentPlayer + " won!" : "Player " + currentPlayer + " turn"}
-
-      <RestartGameButton onClick={restartGame}></RestartGameButton>
-
+    <div className="game">
+      {!gameFinished && <b className="current-player">Player {currentPlayer} turn</b>}
       <Board
         tiles={tiles}
         currentPlayer={currentPlayer}
@@ -40,6 +36,8 @@ export default function Game() {
         onPlayerMoved={handlePlayerMoved}
         onGameFinished={() => setGameFinished(!gameFinished)}
       />
+
+      <button onClick={restartGame}>RESTART GAME</button>
     </div>
   );
 }

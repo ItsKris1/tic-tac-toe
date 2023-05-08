@@ -1,11 +1,12 @@
 import "./Board.css";
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished }) {
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished, updateTiles }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameFinished) {
       return;
     }
+
     let validMove = false;
 
     const newTiles = tiles.map((row, y) => {
@@ -21,12 +22,15 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
 
     if (validMove) {
       if (checkBoardFull(newTiles)) {
+        // game is draw
         onGameFinished();
       } else if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
         onGameFinished();
       } else {
-        onPlayerMoved(newTiles);
+        onPlayerMoved();
       }
+
+      updateTiles(newTiles);
     }
   }
   function checkIfWon(newTiles, x, y) {
@@ -93,7 +97,9 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
   return (
     <div className="board">
       {tiles.map((row, y) => {
-        return row.map((tile, x) => <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} />);
+        return row.map((tile, x) => (
+          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameFinished={gameFinished} />
+        ));
       })}
     </div>
   );

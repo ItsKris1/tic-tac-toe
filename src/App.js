@@ -7,10 +7,10 @@ function App() {
       <h1>Tic Tac Toe</h1>
       <ul>
         <li className="player-info">
-          Player1: <Player1></Player1>
+          Player 1: <Player1></Player1>
         </li>
         <li className="player-info">
-          Player2: <Player2></Player2>
+          Player 2: <Player2></Player2>
         </li>
       </ul>
       <Game />

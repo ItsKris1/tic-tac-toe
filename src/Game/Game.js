@@ -21,9 +21,12 @@ export default function Game() {
     setCurrentPlayer(1);
   }
 
-  function handlePlayerMoved(newTiles) {
-    setTiles(newTiles);
+  function handlePlayerMoved() {
     setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
+  }
+
+  function handleGameFinished() {
+    setGameFinished(true);
   }
 
   return (
@@ -33,10 +36,11 @@ export default function Game() {
 
       <Board
         tiles={tiles}
+        updateTiles={(newTiles) => setTiles(newTiles)}
         currentPlayer={currentPlayer}
         gameFinished={gameFinished}
         onPlayerMoved={handlePlayerMoved}
-        onGameFinished={() => setGameFinished(!gameFinished)}
+        onGameFinished={handleGameFinished}
       />
 
       <button className="restart-btn" onClick={restartGame}>

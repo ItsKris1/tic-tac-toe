@@ -9,11 +9,9 @@ To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
 
 
 ## Todo
-- Add *draw* as a game state
-- Consistent layout
+- Give life to the project(adding a color scheme to it and trying a different font)
 
 ## Ideas
-- Once game functionality is completed - think of adding a different color scheme or font. Although black and white seems to work well too for such a classic.
 - Add the option to choose player names and their game buttons
 - Make the game multiplayer(local at first then maybe public)
 

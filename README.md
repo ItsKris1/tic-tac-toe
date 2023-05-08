@@ -10,7 +10,8 @@ To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
 
 ## Todo
 - Add *draw* as a game state
-- How to display if game is over(either someone won or a draw)
+- Disable hover on board tiles if game is over
+- Consistent layout
 
 ## Ideas
 - Once game functionality is completed - think of adding a different color scheme or font. Although black and white seems to work well too for such a classic.

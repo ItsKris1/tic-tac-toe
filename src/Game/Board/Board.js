@@ -1,7 +1,7 @@
 import "./Board.css";
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished, updateTiles }) {
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinished, onGameFinished }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameFinished) {
       return;
@@ -25,10 +25,8 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameFinishe
       } else if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
         onGameFinished();
       } else {
-        onPlayerMoved();
+        onPlayerMoved(newTiles);
       }
-
-      updateTiles(newTiles);
     }
   }
   function checkIfWon(newTiles, x, y) {

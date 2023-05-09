@@ -9,7 +9,7 @@ To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
 
 
 ## Todo
-- Give life to the project(adding a color scheme to it and trying a different font)
+- Change hover states for buttons and tiles
 
 ## Ideas
 - Add the option to choose player names and their game buttons

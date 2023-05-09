@@ -3,6 +3,7 @@ import Board from "./Board/Board";
 
 import { Player1, Player2 } from "./Board/BoardTile";
 import { initialGameState, gameStateReducer } from "./GameState";
+import Dots from "./Dots";
 
 function App() {
   const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);
@@ -40,7 +41,9 @@ function App() {
       <div className="flex-column-center game">
         <div className="flex-column-center">
           <h3>GAME STATUS</h3>
-          <p>{gameStatus}</p>
+          <p>
+            {gameStatus} <Dots></Dots>
+          </p>
         </div>
 
         <Board gameState={gameState} dispatch={dispatch} />

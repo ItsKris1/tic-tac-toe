@@ -4,6 +4,7 @@
   --hover-bg: rgb(207, 207, 207);
   --tile-bg: #bad9b5;
   --tile-border: 5px solid #aba361;
+  --tile-hover: #d1eecd;
   --main-bg: #eff7cf;
   --accent: #a86969;
   --primary-text: #6f5d5d;
@@ -66,6 +67,7 @@ code {
 }
 
 .btn:hover {
+  background-color: var(--tile-hover);
   cursor: pointer;
 }
 
@@ -80,7 +82,6 @@ code {
   height: 40px;
   gap: 5px;
 }
-
 
 .player-info img {
   height: 100%;
@@ -108,11 +109,11 @@ code {
 }
 
 .tile:hover {
-  background-color: var(--hover-bg);
+  background-color: var(--tile-hover);
   cursor: pointer;
 }
 
 .tile.disabled:hover {
   cursor: initial;
-  background-color: initial;
+  background-color: var(--tile-bg);
 }

@@ -39,10 +39,6 @@ function App() {
     setCurrentPlayer(1);
   }
 
-  function handlePlayerMoved(newTiles) {
-    setTiles(newTiles);
-    setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
-  }
   return (
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
@@ -63,8 +59,9 @@ function App() {
         <Board
           tiles={tiles}
           currentPlayer={currentPlayer}
-          onPlayerMoved={handlePlayerMoved}
           gameState={gameState}
+          onTilesChanged={(newTiles) => setTiles(newTiles)}
+          onPlayerMoved={() => setCurrentPlayer(currentPlayer === 1 ? 2 : 1)}
           onGameStateChange={(newGameState) => setGameState(newGameState)}
         />
       </div>

@@ -94,7 +94,12 @@ export default function Board({ gameState, dispatch }) {
     <div className="board">
       {gameState.tiles.map((row, y) => {
         return row.map((tile, x) => (
-          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameStatus={gameState.status} />
+          <BoardTile
+            key={`tile-${x}`}
+            playerNumber={tile}
+            onClick={() => handleClickOnTile(y, x)}
+            gameStatus={gameState.status}
+          />
         ));
       })}
     </div>

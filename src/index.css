@@ -1,13 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700;800&family=Rowdies&display=swap");
+
 :root {
   --hover-bg: rgb(207, 207, 207);
+  --tile-bg: #bad9b5;
+  --tile-border: 5px solid #aba361;
+  --main-bg: #eff7cf;
+  --accent: #a86969;
+  --primary-text: #6f5d5d;
+}
+
+h1,
+h3,
+p {
+  margin: 0;
 }
 
 h1 {
-  margin: 0;
+  font-size: 2.5rem;
+  font-family: "Rowdies", cursive;
 }
 
-p {
-  margin: 0;
+h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 5px;
 }
 
 ul {
@@ -17,20 +33,46 @@ ul {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   width: 100vw;
+  background-color: var(--main-bg);
+  color: var(--primary-text);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  letter-spacing: 1px;
+  background-color: transparent;
+  border: 4px solid #817a42;
+  border-radius: 5px;
+  font-size: 14px;
+
+  font-weight: 700;
+  font-family: "Open Sans";
+  color: var(--primary-text);
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.app {
+  gap: 15px;
+  margin: 50px;
+}
 
 .player-info {
   display: flex;
@@ -39,27 +81,13 @@ code {
   gap: 5px;
 }
 
+
 .player-info img {
   height: 100%;
-
-}
-
-.game-status {
-  font-size: 1.15rem;
-  font-weight: 700;
-}
-.app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin: 50px;
 }
 
 .game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 5px;
 }
 
 .board {
@@ -68,47 +96,23 @@ code {
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: repeat(3, 100px);
-  border-top: 2px solid black;
-  border-left: 2px solid black;
   margin: 20px;
-
-}
-
-.restart-btn {
-  outline: none;
-  border: 2px solid black;
-  padding: 5px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  background-color:white;
-  color: rgb(61, 60, 60);
-}
-
-.restart-btn:hover {
-  background-color: var(--hover-bg);
-  cursor: pointer;
-
 }
 
 .tile {
   display: flex;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
+  border: var(--tile-border);
+  background-color: var(--tile-bg);
   padding: 10px;
+  border-radius: 15px;
 }
 
 .tile:hover {
   background-color: var(--hover-bg);
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.tile.disabled:hover{
+.tile.disabled:hover {
   cursor: initial;
   background-color: initial;
 }
-
-
-
-
-
-

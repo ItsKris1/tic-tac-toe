@@ -1,6 +1,6 @@
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange, updateTiles }) {
+export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange, onTilesChanged }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameState === "draw" || gameState === "player_won") {
       return;
@@ -25,10 +25,10 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
       } else if (checkBoardFull(newTiles)) {
         onGameStateChange("draw");
       } else {
-        onPlayerMoved(newTiles);
+        onPlayerMoved();
       }
 
-      updateTiles(newTiles);
+      onTilesChanged(newTiles);
     }
   }
   function checkIfWon(newTiles, x, y) {

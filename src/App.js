@@ -9,6 +9,11 @@ const initialTiles = [
   [0, 0, 0],
 ];
 
+// const gameState = {
+//   currentPlayer: 1,
+//   status: "playing",
+// };
+
 function App() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [gameState, setGameState] = useState("playing");

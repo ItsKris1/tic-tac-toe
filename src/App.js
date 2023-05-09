@@ -1,32 +1,20 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import Board from "./Board/Board";
 
 import { Player1, Player2 } from "./Board/BoardTile";
-
-const initialTiles = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-];
-
-// const gameState = {
-//   currentPlayer: 1,
-//   status: "playing",
-// };
+import { initialGameState, gameStateReducer } from "./GameState";
 
 function App() {
-  const [currentPlayer, setCurrentPlayer] = useState(1);
-  const [gameState, setGameState] = useState("playing");
-  const [tiles, setTiles] = useState(initialTiles);
+  const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);
 
   let gameStatus;
-  switch (gameState) {
+  switch (gameState.status) {
     case "playing": {
-      gameStatus = `Player ${currentPlayer} turn`;
+      gameStatus = `Player ${gameState.currentPlayer} turn`;
       break;
     }
     case "player_won": {
-      gameStatus = `Player ${currentPlayer} won!!!`;
+      gameStatus = `Player ${gameState.currentPlayer} won!!!`;
       break;
     }
     case "draw": {
@@ -36,12 +24,6 @@ function App() {
     default: {
       console.log("Invalid gameStatus: ", gameStatus);
     }
-  }
-
-  function restartGame() {
-    setTiles(initialTiles);
-    setGameState("playing");
-    setCurrentPlayer(1);
   }
 
   return (
@@ -61,16 +43,9 @@ function App() {
           <p>{gameStatus}</p>
         </div>
 
-        <Board
-          tiles={tiles}
-          currentPlayer={currentPlayer}
-          gameState={gameState}
-          onTilesChanged={(newTiles) => setTiles(newTiles)}
-          onPlayerMoved={() => setCurrentPlayer(currentPlayer === 1 ? 2 : 1)}
-          onGameStateChange={(newGameState) => setGameState(newGameState)}
-        />
+        <Board gameState={gameState} dispatch={dispatch} />
       </div>
-      <button className="btn restart" onClick={restartGame}>
+      <button className="btn restart" onClick={() => dispatch({ type: "game_restarted" })}>
         RESTART GAME
       </button>
     </div>

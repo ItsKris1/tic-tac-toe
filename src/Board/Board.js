@@ -1,18 +1,18 @@
 import BoardTile from "./BoardTile";
 
-export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, onGameStateChange, onTilesChanged }) {
+export default function Board({ gameState, dispatch }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
-    if (gameState === "draw" || gameState === "player_won") {
+    if (gameState.status === "draw" || gameState.status === "player_won") {
       return;
     }
 
     let playerMoved = false;
 
-    const newTiles = tiles.map((row, y) => {
+    const newTiles = gameState.tiles.map((row, y) => {
       return row.map((tile, x) => {
         if (tile === 0 && y === clickedTileRow && x === clickedTileCol) {
           playerMoved = true;
-          return currentPlayer;
+          return gameState.currentPlayer;
         } else {
           return tile;
         }
@@ -21,14 +21,14 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
 
     if (playerMoved) {
       if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
-        onGameStateChange("player_won");
+        dispatch({ type: "status_changed", status: "player_won" });
       } else if (checkBoardFull(newTiles)) {
-        onGameStateChange("draw");
+        dispatch({ type: "status_changed", status: "draw" });
       } else {
-        onPlayerMoved();
+        dispatch({ type: "player_moved" });
       }
 
-      onTilesChanged(newTiles);
+      dispatch({ type: "tiles_changed", newTiles });
     }
   }
   function checkIfWon(newTiles, x, y) {
@@ -50,7 +50,7 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
 
   function playerHasMatchingColumn(tiles, col) {
     for (let row = 0; row < 3; row++) {
-      if (tiles[row][col] !== currentPlayer) {
+      if (tiles[row][col] !== gameState.currentPlayer) {
         return false;
       }
     }
@@ -58,7 +58,7 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
   }
   function playerHasMatchingRow(tiles, row) {
     for (let col = 0; col < 3; col++) {
-      if (tiles[row][col] !== currentPlayer) {
+      if (tiles[row][col] !== gameState.currentPlayer) {
         return false;
       }
     }
@@ -72,7 +72,7 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
   function checkDiagonalFromUpLeft(tiles) {
     for (let row = 0; row < 3; row++) {
       let col = row;
-      if (tiles[row][col] !== currentPlayer) {
+      if (tiles[row][col] !== gameState.currentPlayer) {
         return false;
       }
     }
@@ -83,7 +83,7 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
     let col = 2;
 
     for (let row = 0; row < 3; row++) {
-      if (tiles[row][col - row] !== currentPlayer) {
+      if (tiles[row][col - row] !== gameState.currentPlayer) {
         return false;
       }
     }
@@ -92,9 +92,9 @@ export default function Board({ tiles, currentPlayer, onPlayerMoved, gameState, 
 
   return (
     <div className="board">
-      {tiles.map((row, y) => {
+      {gameState.tiles.map((row, y) => {
         return row.map((tile, x) => (
-          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameState={gameState} />
+          <BoardTile row={y} col={x} playerNumber={tile} onClick={handleClickOnTile} gameStatus={gameState.status} />
         ));
       })}
     </div>

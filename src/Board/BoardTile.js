@@ -9,16 +9,16 @@ export default function BoardTile({ playerNumber, onClick, gameStatus }) {
   return (
     <div className={tileClass} onClick={onClick}>
       {playerNumber === 0 && " "}
-      {playerNumber === 1 && <img src={Circle} alt="Circle"></img>}
-      {playerNumber === 2 && <img src={Cross} alt="cross"></img>}
+      {playerNumber === 1 && <Player1></Player1>}
+      {playerNumber === 2 && <Player2></Player2>}
     </div>
   );
 }
 
 export function Player1() {
-  return <img src={Circle} alt="Circle"></img>;
+  return <img src={Circle} className="player" alt="Circle"></img>;
 }
 
 export function Player2() {
-  return <img src={Cross} alt="cross"></img>;
+  return <img src={Cross} className="player" alt="cross"></img>;
 }

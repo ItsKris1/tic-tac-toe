@@ -42,7 +42,7 @@ function App() {
         <div className="flex-column-center">
           <h3>GAME STATUS</h3>
           <p>
-            {gameStatus} <Dots></Dots>
+            {gameStatus} {gameState.status === "playing" && <Dots></Dots>}
           </p>
         </div>
 

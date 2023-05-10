@@ -6,6 +6,7 @@
   --tile-border: 5px solid #aba361;
   --tile-hover: #d1eecd;
   --main-bg: #eff7cf;
+  --btn-hover: #e6edc8;
   --accent: #a86969;
   --primary-text: #6f5d5d;
 }
@@ -67,7 +68,7 @@ code {
 }
 
 .btn:hover {
-  background-color: var(--tile-hover);
+  background-color: var(--btn-hover);
   cursor: pointer;
 }
 
@@ -85,6 +86,12 @@ code {
 
 .player-info img {
   height: 100%;
+}
+
+.player {
+  animation: scale;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
 }
 
 .game {
@@ -127,6 +134,24 @@ code {
     opacity: 0;
   }
 }
+@keyframes scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .dots {
   display: inline-block;
@@ -135,7 +160,7 @@ code {
   display: inline-block;
   height: 5px;
   width: 5px;
-  background-color: rgb(63, 62, 62);
+  background-color: var(--primary-text);
   border-radius: 5px;
   animation: invisible 1s infinite linear alternate;
   margin-left: 2.5px;

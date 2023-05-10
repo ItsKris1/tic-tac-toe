@@ -1,9 +1,9 @@
 import { useReducer } from "react";
-import Board from "./Board/Board";
 
-import { Player1, Player2 } from "./Board/BoardTile";
+import { Player1, Player2 } from "./Components/Player/Player";
 import { initialGameState, gameStateReducer } from "./GameState";
-import Dots from "./Dots";
+import Board from "./Components/Board.js";
+import WaitingAnimation from "./Components/WaitingAnimation/WaitingAnimation";
 
 function App() {
   const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);
@@ -41,9 +41,9 @@ function App() {
       <div className="flex-column-center game">
         <div className="flex-column-center">
           <h3>GAME STATUS</h3>
-          <p>
-            {gameStatus} {gameState.status === "playing" && <Dots></Dots>}
-          </p>
+          <div className="game-status">
+            <p>{gameStatus}</p> {gameState.status === "playing" && <WaitingAnimation />}
+          </div>
         </div>
 
         <Board gameState={gameState} dispatch={dispatch} />

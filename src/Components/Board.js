@@ -1,4 +1,4 @@
-import BoardTile from "./BoardTile";
+import Tile from "./Tile.js";
 
 export default function Board({ gameState, dispatch }) {
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
@@ -94,7 +94,7 @@ export default function Board({ gameState, dispatch }) {
     <div className="board">
       {gameState.tiles.map((row, y) => {
         return row.map((tile, x) => (
-          <BoardTile
+          <Tile
             key={`tile-${x}`}
             playerNumber={tile}
             onClick={() => handleClickOnTile(y, x)}

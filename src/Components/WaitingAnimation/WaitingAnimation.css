@@ -1,0 +1,29 @@
+.dot {
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  background-color: var(--primary-text);
+  border-radius: 5px;
+  animation: fade-out 1s infinite linear alternate;
+  margin-left: 2.5px;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.dot:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

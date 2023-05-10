@@ -2,6 +2,7 @@ import { useReducer } from "react";
 
 import { Player1, Player2 } from "./Components/Player/Player";
 import { initialGameState, gameStateReducer } from "./GameState";
+import WebSocket from "./WebSocket";
 import Board from "./Components/Board.js";
 import WaitingAnimation from "./Components/WaitingAnimation/WaitingAnimation";
 
@@ -30,6 +31,8 @@ function App() {
   return (
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
+
+      <WebSocket></WebSocket>
       <ul>
         <li className="player-info">
           Player 1: <Player1></Player1>

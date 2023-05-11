@@ -5,8 +5,8 @@ Classic game tic-tac-toe built with React. It has main functionalities of the ga
 
 ## Run the project
 To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
-1. Start frontend server by navigating to `frontend` folder and running `npm start`
-2. Start backend server by navigating to `backend` folder and running `npm start`
+1. Start backend server by navigating to `backend` folder and running `npm start`
+2. Start frontend server by navigating to `frontend` folder and running `npm start`
 3. Open [http://localhost:3000](http://localhost:3000) to view the project in your browser
 
 ## Stack

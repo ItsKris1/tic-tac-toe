@@ -13,5 +13,6 @@ To test the project you need to have [NodeJS](https://nodejs.org/en/) installed.
 Frontend
 - React
 - HTML & CSS
+
 Backend
 - NodeJS

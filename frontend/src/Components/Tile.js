@@ -1,7 +1,7 @@
 import { Player1, Player2 } from "./Player/Player";
 export default function Tile({ playerNumber, onClick, gameStatus }) {
   let tileClass = "tile";
-  if (gameStatus === "draw" || gameStatus === "player_won") {
+  if (gameStatus === "draw" || gameStatus === "player_won" || gameStatus === "waiting") {
     tileClass += " disabled";
   }
   return (

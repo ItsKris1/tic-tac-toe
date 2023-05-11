@@ -9,10 +9,9 @@ const WS_URL = "ws://127.0.0.1:8080";
 
 function App() {
   const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);
-  // console.log("gameState", gameState);
   const [isRoomFull, setIsRoomFull] = useState(false);
-  const { readyState } = useWebSocket(WS_URL, {
-    filter: (data) => data === "hello",
+
+  const { sendJsonMessage } = useWebSocket(WS_URL, {
     share: true,
     onOpen: () => {
       console.log("WebSocket connection established.");
@@ -20,41 +19,37 @@ function App() {
 
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-      // console.log("data", data);
       dispatch(data);
     },
 
     onClose: (e) => {
-      console.log("CLIENT: CLOSED", e);
       if (e.reason === "full") {
         setIsRoomFull(true);
       }
     },
   });
 
-  // if (readyState !== 1) {
-  //   // console.log("returning");
-  // }
-
   if (isRoomFull) {
     return <h1>Two players supported only</h1>;
   }
 
-  // console.log("Rendering");
-  // console.log("Ready state: ", readyState);
-
   let gameStatus;
   switch (gameState.status) {
     case "playing": {
-      gameStatus = `Player ${gameState.currentPlayer} turn`;
+      gameStatus = `${gameState.players[gameState.currentPlayer - 1]} turn`;
       break;
     }
     case "player_won": {
-      gameStatus = `Player ${gameState.currentPlayer} won!!!`;
+      gameStatus = `${gameState.players[gameState.currentPlayer - 1]} won!!!`;
       break;
     }
     case "draw": {
       gameStatus = `DRAW`;
+      break;
+    }
+
+    case "waiting": {
+      gameStatus = "Waiting for players";
       break;
     }
     default: {
@@ -62,32 +57,48 @@ function App() {
     }
   }
 
+  const playerHasMoved = gameState.tiles.flat().some((tile) => tile !== 0);
+  const displayRestartbutton = playerHasMoved && gameState.status !== "waiting";
+
   return (
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
 
-      {/* <WebSocket></WebSocket> */}
       <ul>
-        <li className="player-info">
-          Player 1: <Player1></Player1>
-        </li>
-        <li className="player-info">
-          Player 2: <Player2></Player2>
-        </li>
+        {gameState.players.map((player, i) => {
+          if (i === 0) {
+            return (
+              <li className="player-info">
+                {player}: <Player1></Player1>
+              </li>
+            );
+          } else {
+            return (
+              <li className="player-info">
+                {player}: <Player2></Player2>
+              </li>
+            );
+          }
+        })}
       </ul>
+
       <div className="flex-column-center game">
         <div className="flex-column-center">
           <h3>GAME STATUS</h3>
           <div className="game-status">
-            <p>{gameStatus}</p> {gameState.status === "playing" && <WaitingAnimation />}
+            <p>{gameStatus}</p>{" "}
+            {(gameState.status === "playing" || gameState.status === "waiting") && <WaitingAnimation />}
           </div>
         </div>
 
         <Board gameState={gameState} dispatch={dispatch} />
       </div>
-      <button className="btn restart" onClick={() => dispatch({ type: "game_restarted" })}>
-        RESTART GAME
-      </button>
+
+      {displayRestartbutton && (
+        <button className="btn restart" onClick={() => sendJsonMessage({ type: "game_restarted" })}>
+          RESTART GAME
+        </button>
+      )}
     </div>
   );
 }

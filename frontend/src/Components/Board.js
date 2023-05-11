@@ -9,7 +9,7 @@ export default function Board({ gameState, dispatch }) {
   });
 
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
-    if (gameState.status === "draw" || gameState.status === "player_won") {
+    if (gameState.status === "draw" || gameState.status === "player_won" || gameState.status === "waiting") {
       return;
     }
 
@@ -37,6 +37,8 @@ export default function Board({ gameState, dispatch }) {
         // dispatch({ type: "player_moved" });
         sendJsonMessage({ type: "player_moved" });
       }
+
+      // maybe group all that into player_moved with status?
 
       sendJsonMessage({ type: "tiles_changed", newTiles });
 

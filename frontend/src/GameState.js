@@ -5,7 +5,8 @@ const initialTiles = [
 ];
 
 export const initialGameState = {
-  currentPlayer: 1,
+  currentPlayer: "",
+  me: "",
   status: "playing",
   tiles: initialTiles,
 };
@@ -21,11 +22,16 @@ export function gameStateReducer(gameState, action) {
     }
 
     case "tiles_changed": {
+      console.log("Changing state");
       return { ...gameState, tiles: action.newTiles };
     }
 
     case "game_restarted": {
       return initialGameState;
+    }
+
+    case "set_me": {
+      return { ...gameState, me: action.me };
     }
 
     default: {

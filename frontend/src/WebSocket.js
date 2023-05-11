@@ -2,6 +2,7 @@ import useWebSocket from "react-use-websocket";
 const WS_URL = "ws://127.0.0.1:8080";
 export default function WebSocket() {
   const { sendMessage } = useWebSocket(WS_URL, {
+    share: true,
     onOpen: () => {
       console.log("WebSocket connection established.");
     },

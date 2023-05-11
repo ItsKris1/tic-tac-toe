@@ -1,6 +1,13 @@
 import Tile from "./Tile.js";
+import useWebSocket from "react-use-websocket";
+
+const WS_URL = "ws://127.0.0.1:8080";
 
 export default function Board({ gameState, dispatch }) {
+  const { sendJsonMessage } = useWebSocket(WS_URL, {
+    share: true,
+  });
+
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameState.status === "draw" || gameState.status === "player_won") {
       return;
@@ -21,14 +28,19 @@ export default function Board({ gameState, dispatch }) {
 
     if (playerMoved) {
       if (checkIfWon(newTiles, clickedTileCol, clickedTileRow)) {
-        dispatch({ type: "status_changed", status: "player_won" });
+        // dispatch();
+        sendJsonMessage({ type: "status_changed", status: "player_won" });
       } else if (checkBoardFull(newTiles)) {
-        dispatch({ type: "status_changed", status: "draw" });
+        // dispatch({ type: "status_changed", status: "draw" });
+        sendJsonMessage({ type: "status_changed", status: "draw" });
       } else {
-        dispatch({ type: "player_moved" });
+        // dispatch({ type: "player_moved" });
+        sendJsonMessage({ type: "player_moved" });
       }
 
-      dispatch({ type: "tiles_changed", newTiles });
+      sendJsonMessage({ type: "tiles_changed", newTiles });
+
+      // dispatch({ type: "tiles_changed", newTiles });
     }
   }
   function checkIfWon(newTiles, x, y) {

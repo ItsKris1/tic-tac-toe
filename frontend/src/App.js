@@ -1,13 +1,47 @@
-import { useReducer } from "react";
-
+import { useReducer, useState } from "react";
 import { Player1, Player2 } from "./Components/Player/Player";
 import { initialGameState, gameStateReducer } from "./GameState";
-import WebSocket from "./WebSocket";
 import Board from "./Components/Board.js";
 import WaitingAnimation from "./Components/WaitingAnimation/WaitingAnimation";
+import useWebSocket from "react-use-websocket";
+
+const WS_URL = "ws://127.0.0.1:8080";
 
 function App() {
   const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);
+  // console.log("gameState", gameState);
+  const [isRoomFull, setIsRoomFull] = useState(false);
+  const { readyState } = useWebSocket(WS_URL, {
+    filter: (data) => data === "hello",
+    share: true,
+    onOpen: () => {
+      console.log("WebSocket connection established.");
+    },
+
+    onMessage: (e) => {
+      const data = JSON.parse(e.data);
+      // console.log("data", data);
+      dispatch(data);
+    },
+
+    onClose: (e) => {
+      console.log("CLIENT: CLOSED", e);
+      if (e.reason === "full") {
+        setIsRoomFull(true);
+      }
+    },
+  });
+
+  // if (readyState !== 1) {
+  //   // console.log("returning");
+  // }
+
+  if (isRoomFull) {
+    return <h1>Two players supported only</h1>;
+  }
+
+  // console.log("Rendering");
+  // console.log("Ready state: ", readyState);
 
   let gameStatus;
   switch (gameState.status) {
@@ -32,7 +66,7 @@ function App() {
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
 
-      <WebSocket></WebSocket>
+      {/* <WebSocket></WebSocket> */}
       <ul>
         <li className="player-info">
           Player 1: <Player1></Player1>

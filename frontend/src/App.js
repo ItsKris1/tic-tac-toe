@@ -2,8 +2,8 @@ import { useReducer, useState } from "react";
 import { Player1, Player2 } from "./Components/Player/Player";
 import { initialGameState, gameStateReducer } from "./GameState";
 import Board from "./Components/Board.js";
-import WaitingAnimation from "./Components/WaitingAnimation/WaitingAnimation";
 import useWebSocket from "react-use-websocket";
+import { GameStatus } from "./Components/GameStatus";
 
 const WS_URL = "ws://127.0.0.1:8080";
 
@@ -13,14 +13,15 @@ function App() {
 
   const { sendJsonMessage } = useWebSocket(WS_URL, {
     share: true,
-
     onOpen: () => {
       console.log("WebSocket connection established.");
     },
 
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-      if (data.type !== "tile_hovered" && data.type !== "mouse_left_board") {
+
+      // those data.types are handled by Board component
+      if (data.type !== "tile_hovered" && data.type !== "unhover_tile") {
         dispatch(data);
       }
     },
@@ -39,30 +40,6 @@ function App() {
   const playerHasMoved = gameState.tiles.flat().some((tile) => tile !== 0);
   const displayRestartbutton = playerHasMoved && gameState.status !== "waiting";
   const playerComponents = [<Player1></Player1>, <Player2></Player2>];
-
-  let gameStatus;
-  switch (gameState.status) {
-    case "playing": {
-      gameStatus = `${gameState.players[gameState.currentPlayer - 1]} turn`;
-      break;
-    }
-    case "player_won": {
-      gameStatus = `${gameState.players[gameState.currentPlayer - 1]} won!!!`;
-      break;
-    }
-    case "draw": {
-      gameStatus = `DRAW`;
-      break;
-    }
-
-    case "waiting": {
-      gameStatus = "Waiting for players";
-      break;
-    }
-    default: {
-      console.log("Invalid gameStatus: ", gameStatus);
-    }
-  }
 
   return (
     <div className="flex-column-center app">
@@ -84,10 +61,7 @@ function App() {
       <div className="flex-column-center game">
         <div className="flex-column-center">
           <h3>GAME STATUS</h3>
-          <div className="game-status">
-            <p>{gameStatus}</p>{" "}
-            {(gameState.status === "playing" || gameState.status === "waiting") && <WaitingAnimation />}
-          </div>
+          <GameStatus gameState={gameState}></GameStatus>
         </div>
 
         <Board gameState={gameState} dispatch={dispatch} />

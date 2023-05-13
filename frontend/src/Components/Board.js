@@ -5,22 +5,27 @@ const WS_URL = "ws://127.0.0.1:8080";
 export default function Board({ gameState }) {
   const { lastJsonMessage, sendJsonMessage } = useWebSocket(WS_URL, {
     share: true,
+
+    // only update lastJsonMessage if message type includes information about whether a tile is hovered or not
     filter: (e) => {
       const data = JSON.parse(e.data);
-      return data.type === "tile_hovered" || data.type === "mouse_left_board";
+      return data.type === "tile_hovered" || data.type === "unhover_tile";
     },
   });
 
-  let tileHovered;
+  const isCurrentPlayerTurn = gameState.currentPlayer === gameState.myPlayerIndex + 1;
 
-  if (lastJsonMessage !== null) {
-    if (lastJsonMessage.type === "tile_hovered") {
-      const tileCords = lastJsonMessage.cords;
-      tileHovered = tileCords;
+  function handleTileHover(x, y) {
+    if (isCurrentPlayerTurn && gameState.status === "playing") {
+      sendJsonMessage({ type: "tile_hovered", cords: [x, y] });
     }
   }
 
-  const isCurrentPlayerTurn = gameState.currentPlayer === gameState.myPlayerIndex + 1;
+  function handleBoardMouseLeave() {
+    if (isCurrentPlayerTurn) {
+      sendJsonMessage({ type: "unhover_tile" });
+    }
+  }
 
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameState.status !== "playing" || !isCurrentPlayerTurn) {
@@ -46,11 +51,11 @@ export default function Board({ gameState }) {
       } else if (checkBoardFull(newTiles)) {
         sendJsonMessage({ type: "status_changed", status: "draw" });
       } else {
-        sendJsonMessage({ type: "player_moved" });
+        sendJsonMessage({ type: "current_player_changed" });
       }
 
-      sendJsonMessage({ type: "mouse_left_board" });
-      sendJsonMessage({ type: "tiles_changed", newTiles });
+      sendJsonMessage({ type: "unhover_tile" });
+      sendJsonMessage({ type: "player_moved", newTiles });
     }
   }
   function checkIfWon(newTiles, x, y) {
@@ -113,36 +118,27 @@ export default function Board({ gameState }) {
   }
 
   function isTileHovered(x, y) {
-    if (tileHovered === undefined) {
-      return false;
-    } else {
-      return tileHovered[0] === x && tileHovered[1] === y;
+    if (lastJsonMessage !== null) {
+      if (lastJsonMessage.type === "tile_hovered") {
+        let tileHoveredCords = lastJsonMessage.cords;
+        return tileHoveredCords[0] === x && tileHoveredCords[1] === y;
+      }
     }
+
+    return false;
   }
 
   return (
-    <div
-      className="board"
-      onMouseLeave={() => {
-        if (isCurrentPlayerTurn) {
-          sendJsonMessage({ type: "mouse_left_board" });
-        }
-      }}
-    >
+    <div className="board" onMouseLeave={handleBoardMouseLeave}>
       {gameState.tiles.map((row, y) => {
         return row.map((tile, x) => (
           <Tile
             key={`tile-${x}`}
             playerNumber={tile}
-            onClick={() => handleClickOnTile(y, x)}
             gameStatus={gameState.status}
-            gameState={gameState}
-            onTileHover={() => {
-              if (isCurrentPlayerTurn && gameState.status === "playing") {
-                sendJsonMessage({ type: "tile_hovered", cords: [x, y] });
-              }
-            }}
             tileHovered={isTileHovered(x, y)}
+            onTileHover={() => handleTileHover(x, y)}
+            onClick={() => handleClickOnTile(y, x)}
           />
         ));
       })}

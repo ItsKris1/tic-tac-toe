@@ -15,6 +15,10 @@ export const initialGameState = {
 export function gameStateReducer(gameState, action) {
   switch (action.type) {
     case "player_moved": {
+      return { ...gameState, tiles: action.newTiles };
+    }
+
+    case "current_player_changed": {
       return { ...gameState, currentPlayer: gameState.currentPlayer === 1 ? 2 : 1 };
     }
 
@@ -22,17 +26,11 @@ export function gameStateReducer(gameState, action) {
       return { ...gameState, status: action.status };
     }
 
-    case "tiles_changed": {
-      return { ...gameState, tiles: action.newTiles };
-    }
-
     case "game_restarted": {
       return { ...gameState, tiles: initialTiles, currentPlayer: 1, status: "playing" };
     }
 
     case "joined_game": {
-      console.log("myplayerIndex", action.player_index);
-      console.log("action", action);
       return { ...gameState, myPlayerIndex: action["player_index"] };
     }
 

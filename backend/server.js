@@ -22,7 +22,6 @@ wss.on("connection", function connection(ws) {
 
   ws.on("message", function message(data) {
     broadcastMessage(JSON.parse(data));
-    // console.log("received: ", data);
   });
 
   ws.on("close", function close() {
@@ -31,9 +30,9 @@ wss.on("connection", function connection(ws) {
         // if first player left, replace first player with second player if second player exists
         if (client === "user-1" && "user-2" in clients) {
           let wsConn = clients["user-2"];
-          console.log("Old ws conn", wsConn);
           clients = { "user-1": wsConn };
-          // update player index
+
+          // inform old user that it has rejoined
           wsConn.send(JSON.stringify({ type: "joined_game", player_index: 0 }));
         } else {
           delete clients[client];
@@ -48,9 +47,7 @@ wss.on("connection", function connection(ws) {
 
 function broadcastMessage(json) {
   const data = JSON.stringify(json);
-  if (data.type === "tile_hovered") {
-    console.log("data", data);
-  }
+
   for (const client in clients) {
     clients[client].send(data);
   }

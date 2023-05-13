@@ -20,7 +20,7 @@ export default function Board({ gameState }) {
     }
   }
 
-  const isCurrentPlayerTurn = gameState.currentPlayer !== gameState.myPlayerIndex + 1;
+  const isCurrentPlayerTurn = gameState.currentPlayer === gameState.myPlayerIndex + 1;
 
   function handleClickOnTile(clickedTileRow, clickedTileCol) {
     if (gameState.status !== "playing" || !isCurrentPlayerTurn) {
@@ -138,7 +138,7 @@ export default function Board({ gameState }) {
             gameStatus={gameState.status}
             gameState={gameState}
             onTileHover={() => {
-              if (isCurrentPlayerTurn) {
+              if (isCurrentPlayerTurn && gameState.status === "playing") {
                 sendJsonMessage({ type: "tile_hovered", cords: [x, y] });
               }
             }}

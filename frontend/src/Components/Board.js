@@ -1,9 +1,8 @@
 import Tile from "./Tile.js";
 import useWebSocket from "react-use-websocket";
-const WS_URL = "ws://127.0.0.1:8080";
 
-export default function Board({ gameState }) {
-  const { lastJsonMessage, sendJsonMessage } = useWebSocket(WS_URL, {
+export default function Board({ gameState, wsURL }) {
+  const { lastJsonMessage, sendJsonMessage } = useWebSocket(wsURL, {
     share: true,
 
     // only update lastJsonMessage if message type includes information about whether a tile is hovered or not

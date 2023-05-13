@@ -1,4 +1,6 @@
-import { Player1, Player2 } from "./Player/Player";
+import Cross from "../icons/cross.svg";
+import Circle from "../icons/circle.svg";
+
 export default function Tile({ playerNumber, onClick, gameStatus, onTileHover, tileHovered }) {
   let tileClass = "tile";
 
@@ -13,8 +15,8 @@ export default function Tile({ playerNumber, onClick, gameStatus, onTileHover, t
   return (
     <div className={tileClass} onMouseEnter={onTileHover} onClick={onClick}>
       {playerNumber === 0 && " "}
-      {playerNumber === 1 && <Player1></Player1>}
-      {playerNumber === 2 && <Player2></Player2>}
+      {playerNumber === 1 && <img src={Circle} alt=""></img>}
+      {playerNumber === 2 && <img src={Cross} alt=""></img>}
     </div>
   );
 }

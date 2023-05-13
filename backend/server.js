@@ -8,15 +8,17 @@ wss.on("connection", function connection(ws) {
     ws.close(1001, "full");
     return;
   }
-  let player_index = Object.keys(clients).length;
-  let username = `user-${Object.keys(clients).length + 1}`;
-
-  const joined_game = { type: "joined_game", player_index };
-  ws.send(JSON.stringify(joined_game));
+  const player_index = Object.keys(clients).length;
+  const username = `user-${player_index + 1}`;
 
   clients[username] = ws;
   console.log(`${username} connected.`);
 
+  // inform user that it has joined the game and sending back the index of the player in clients
+  const joined_game = { type: "joined_game", player_index };
+  ws.send(JSON.stringify(joined_game));
+
+  // inform all users that a player joined
   const player_joined = { type: "player_joined", players: Object.keys(clients) };
   broadcastMessage(player_joined);
 

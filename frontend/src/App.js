@@ -1,9 +1,10 @@
 import { useReducer, useState } from "react";
-import { Player1, Player2 } from "./Components/Player/Player";
+import useWebSocket from "react-use-websocket";
+
 import { initialGameState, gameStateReducer } from "./GameState";
 import Board from "./Components/Board.js";
-import useWebSocket from "react-use-websocket";
 import { GameStatus } from "./Components/GameStatus";
+import { Player } from "./Components/Player";
 
 const WS_URL = "ws://127.0.0.1:8080";
 
@@ -39,24 +40,15 @@ function App() {
 
   const playerHasMoved = gameState.tiles.flat().some((tile) => tile !== 0);
   const displayRestartbutton = playerHasMoved && gameState.status !== "waiting";
-  const playerComponents = [<Player1></Player1>, <Player2></Player2>];
+  const playerList = gameState.players.map((player, i) => {
+    return <Player name={player} i={i} isMe={i === gameState.myPlayerIndex}></Player>;
+  });
 
   return (
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
 
-      <ul>
-        {gameState.players.map((player, i) => {
-          let infoText = i === gameState.myPlayerIndex ? "(me)" : "(opponent)";
-          let PlayerComponent = playerComponents[i];
-          return (
-            <li key={player} className="player-info">
-              {player}
-              <i>{infoText}</i>: {PlayerComponent}
-            </li>
-          );
-        })}
-      </ul>
+      <ul>{playerList}</ul>
 
       <div className="flex-column-center game">
         <div className="flex-column-center">
@@ -64,7 +56,7 @@ function App() {
           <GameStatus gameState={gameState}></GameStatus>
         </div>
 
-        <Board gameState={gameState} dispatch={dispatch} />
+        <Board gameState={gameState} wsURL={WS_URL} />
       </div>
 
       {displayRestartbutton && (

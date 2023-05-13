@@ -15,6 +15,7 @@ export default function Board({ gameState }) {
 
   const isCurrentPlayerTurn = gameState.currentPlayer === gameState.myPlayerIndex + 1;
 
+  // ---- EVENT HANDLERS -----
   function handleTileHover(x, y) {
     if (isCurrentPlayerTurn && gameState.status === "playing") {
       sendJsonMessage({ type: "tile_hovered", cords: [x, y] });
@@ -58,23 +59,30 @@ export default function Board({ gameState }) {
       sendJsonMessage({ type: "player_moved", newTiles });
     }
   }
+  // ---- CHECK IF TILE HOVERED ----
+  function isTileHovered(x, y) {
+    if (lastJsonMessage !== null) {
+      if (lastJsonMessage.type === "tile_hovered") {
+        let tileHoveredCords = lastJsonMessage.cords;
+        return tileHoveredCords[0] === x && tileHoveredCords[1] === y;
+      }
+    }
+
+    return false;
+  }
+  // ---- CHECKING IF WON -----
   function checkIfWon(newTiles, x, y) {
     return (
       playerHasMatchingRow(newTiles, y) || playerHasMatchingColumn(newTiles, x) || playerHasMatchingDiagonal(newTiles)
     );
   }
-  function checkBoardFull(newTiles) {
-    for (let row = 0; row < newTiles.length; row++) {
-      for (let col = 0; col < newTiles[row].length; col++) {
-        if (newTiles[row][col] === 0) {
-          return false;
-        }
-      }
-    }
 
-    return true;
+  // ---- CHECKING IF BOARD IS FULL -----
+  function checkBoardFull(newTiles) {
+    return newTiles.flat().every((tile) => tile !== 0);
   }
 
+  // --- CHECK BOARD COLUMNS, ROWS AND DIAGONALS
   function playerHasMatchingColumn(tiles, col) {
     for (let row = 0; row < 3; row++) {
       if (tiles[row][col] !== gameState.currentPlayer) {
@@ -115,17 +123,6 @@ export default function Board({ gameState }) {
       }
     }
     return true;
-  }
-
-  function isTileHovered(x, y) {
-    if (lastJsonMessage !== null) {
-      if (lastJsonMessage.type === "tile_hovered") {
-        let tileHoveredCords = lastJsonMessage.cords;
-        return tileHoveredCords[0] === x && tileHoveredCords[1] === y;
-      }
-    }
-
-    return false;
   }
 
   return (

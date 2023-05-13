@@ -114,11 +114,6 @@ code {
   border-radius: 15px;
 }
 
-/* .tile:hover {
-  background-color: var(--tile-hover);
-  cursor: pointer;
-} */
-
 .tile.hover {
   background-color: var(--tile-hover);
   cursor: pointer;

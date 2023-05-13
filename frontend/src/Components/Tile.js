@@ -15,8 +15,8 @@ export default function Tile({ playerNumber, onClick, gameStatus, onTileHover, t
   return (
     <div className={tileClass} onMouseEnter={onTileHover} onClick={onClick}>
       {playerNumber === 0 && " "}
-      {playerNumber === 1 && <img src={Circle} alt=""></img>}
-      {playerNumber === 2 && <img src={Cross} alt=""></img>}
+      {playerNumber === 1 && <img src={Circle} alt="" className="bounce-in"></img>}
+      {playerNumber === 2 && <img src={Cross} alt="" className="bounce-in"></img>}
     </div>
   );
 }

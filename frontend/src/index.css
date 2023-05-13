@@ -133,7 +133,7 @@ code {
 }
 
 /* Player */
-.player {
+.bounce-in {
   animation: bounce-in;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;

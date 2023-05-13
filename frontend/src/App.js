@@ -6,7 +6,7 @@ import Board from "./Components/Board.js";
 import { GameStatus } from "./Components/GameStatus";
 import { Player } from "./Components/Player";
 
-const WS_URL = "ws://127.0.0.1:8080";
+const WS_URL = "wss://kris-tic-tac-toe.onrender.com";
 
 function App() {
   const [gameState, dispatch] = useReducer(gameStateReducer, initialGameState);

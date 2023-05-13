@@ -13,13 +13,16 @@ function App() {
 
   const { sendJsonMessage } = useWebSocket(WS_URL, {
     share: true,
+
     onOpen: () => {
       console.log("WebSocket connection established.");
     },
 
     onMessage: (e) => {
       const data = JSON.parse(e.data);
-      dispatch(data);
+      if (data.type !== "tile_hovered" && data.type !== "mouse_left_board") {
+        dispatch(data);
+      }
     },
 
     onClose: (e) => {
@@ -32,6 +35,10 @@ function App() {
   if (isRoomFull) {
     return <h1>Two players supported only</h1>;
   }
+
+  const playerHasMoved = gameState.tiles.flat().some((tile) => tile !== 0);
+  const displayRestartbutton = playerHasMoved && gameState.status !== "waiting";
+  const playerComponents = [<Player1></Player1>, <Player2></Player2>];
 
   let gameStatus;
   switch (gameState.status) {
@@ -57,28 +64,20 @@ function App() {
     }
   }
 
-  const playerHasMoved = gameState.tiles.flat().some((tile) => tile !== 0);
-  const displayRestartbutton = playerHasMoved && gameState.status !== "waiting";
-
   return (
     <div className="flex-column-center app">
       <h1>Tic Tac Toe</h1>
 
       <ul>
         {gameState.players.map((player, i) => {
-          if (i === 0) {
-            return (
-              <li className="player-info">
-                {player}: <Player1></Player1>
-              </li>
-            );
-          } else {
-            return (
-              <li className="player-info">
-                {player}: <Player2></Player2>
-              </li>
-            );
-          }
+          let infoText = i === gameState.myPlayerIndex ? "(me)" : "(opponent)";
+          let PlayerComponent = playerComponents[i];
+          return (
+            <li key={player} className="player-info">
+              {player}
+              <i>{infoText}</i>: {PlayerComponent}
+            </li>
+          );
         })}
       </ul>
 

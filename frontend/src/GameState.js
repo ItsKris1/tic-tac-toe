@@ -6,7 +6,7 @@ const initialTiles = [
 
 export const initialGameState = {
   currentPlayer: 1,
-  me: "",
+  myPlayerIndex: null,
   status: "waiting",
   players: [],
   tiles: initialTiles,
@@ -28,6 +28,12 @@ export function gameStateReducer(gameState, action) {
 
     case "game_restarted": {
       return { ...gameState, tiles: initialTiles, currentPlayer: 1, status: "playing" };
+    }
+
+    case "joined_game": {
+      console.log("myplayerIndex", action.player_index);
+      console.log("action", action);
+      return { ...gameState, myPlayerIndex: action["player_index"] };
     }
 
     case "player_joined": {

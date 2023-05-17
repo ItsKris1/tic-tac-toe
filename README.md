@@ -11,6 +11,7 @@ Besides having main functionalities of the game, you also can:
 ## Run the project
 
 The project is deployed with Render at: https://tic-tac-toe-38ac.onrender.com/.
+Once you go to the website and you dont see you are connected you might have to refresh your browser because the websocket server goes off after some tife of inactivity.
 
 You also have the option to test it locally. Below are the steps required to run the project on your computer.
 
